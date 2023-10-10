@@ -3,7 +3,7 @@ package ast
 import "github.com/tuantran1810/go-interpreter/token"
 
 type Node interface {
-	NodeLiteral() string
+	TokenLiteral() string
 }
 
 type Statement interface {
@@ -22,7 +22,7 @@ type Program struct {
 
 func (p *Program) TokenLiteral() string {
 	if len(p.Statements) > 0 {
-		return p.Statements[0].NodeLiteral()
+		return p.Statements[0].TokenLiteral()
 	}
 	return ""
 }
