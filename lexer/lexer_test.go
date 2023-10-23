@@ -118,3 +118,25 @@ if (5 < 10) {
 		assert.Equal(t, tt.expectedLiteral, tok.Literal, fmt.Errorf("test %d failed", i))
 	}
 }
+
+func TestLexer_NextToken_1(t *testing.T) {
+	input := `foobar;`
+
+	tests := []struct {
+		expectedType    token.TokenType
+		expectedLiteral string
+	}{
+		{token.IDENT, "foobar"},
+		{token.SEMICOLON, ";"},
+		{token.EOF, ""},
+	}
+
+	l := New(input)
+
+	for i, tt := range tests {
+		tok := l.NextToken()
+		fmt.Printf("%d --- %+v\n", i, tok)
+		assert.Equal(t, tt.expectedType, tok.Type, fmt.Errorf("test %d failed", i))
+		assert.Equal(t, tt.expectedLiteral, tok.Literal, fmt.Errorf("test %d failed", i))
+	}
+}
