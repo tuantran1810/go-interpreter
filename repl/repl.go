@@ -7,6 +7,7 @@ import (
 
 	"github.com/tuantran1810/go-interpreter/evaluator"
 	"github.com/tuantran1810/go-interpreter/lexer"
+	"github.com/tuantran1810/go-interpreter/object"
 	"github.com/tuantran1810/go-interpreter/parser"
 )
 
@@ -14,6 +15,7 @@ const PROMT = ">> "
 
 func Start(in io.Reader, out io.Writer) {
 	scanner := bufio.NewScanner(in)
+	env := object.NewEnvironment()
 
 	for {
 		fmt.Fprint(out, PROMT)
@@ -31,7 +33,7 @@ func Start(in io.Reader, out io.Writer) {
 			printParserErrors(out, p.Errors())
 			continue
 		}
-		obj := evaluator.Eval(program)
+		obj := evaluator.Eval(program, env)
 
 		io.WriteString(out, obj.Inspect())
 		io.WriteString(out, "\n")
